@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="login_text">#0099ff</color>
+
+    <!-- 下拉刷新 -->
+    <color name="gold">#000000</color>
+    <color name="pull_refresh_textview">#000000</color>
+    <color name="refresh_text_color">#ff717171</color>
+    <color name="divider_color">#d8d8d8</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="Gray">#FFC8C8C8</color>
+    
+    <!-- 主体的颜色 -->
+    <color name="transparent">#00000000</color>
+    <color name="mainmenuColor">#48b4f8</color><!-- 主菜单的颜色 -->
+     <color name="tabcolordefault">#8a979e</color>
+    <color name="tabcoloractive">#4ab6fc</color>
+    
+    <!-- 单位树的相关的颜色 -->
+    <color name="back_blue">#994AADCA</color>
+    <color name="back_blue1">#D2E9FF</color>
+    <color name="back_white">#fffffa</color>
+    
+    <!-- 登录页 -->
+    <color name="login_txt_color">#e6f1d5</color>
+    <color name="login_btn_color_unclick">#74c806</color>
+    <color name="login_btn_color_click">#0065a5</color>
+    <color name="login_hint_edit_color">#192b4a</color>
+    
+    <color name="black">#000000</color>
+    <color name="gray_white">#66ffffff</color>
+    <color name="list_pressed">#55666666</color>
+    <color name="indicate_line">#31C27C</color>
+    <color name="indicate_line_1">#4AADCA</color>
+    
+    <color name="btn_button">#4AADCA</color>
+    <color name="btn_button_press">#F7A935</color>
+    
+    <color name="gry_black">#282828</color>
+    <color name="gry_black_press">#918580</color>
+    <color name="tab_title_bg">#E4E4E4</color>
+    
+    
+    <color name="four_form_text_coloer">#4a4a4a</color>
+    <color name="back_color">#EEEEEE</color>
+    
+    <color name="btn_set_color">#F7A935</color>
+    
+    
+    <!-- 文件传阅中,传阅按钮变灰的颜色 -->
+    <color name="btn_gray_color">#ccE1E1E1</color>
+</resources>

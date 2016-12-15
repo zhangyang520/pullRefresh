@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+      <string-array name="mainMenu">
+        <item>行政收文</item>
+        <item>文件传阅</item>
+    	<item>公文通知</item>
+    	<item>我的</item>
+    </string-array>
+</resources>
