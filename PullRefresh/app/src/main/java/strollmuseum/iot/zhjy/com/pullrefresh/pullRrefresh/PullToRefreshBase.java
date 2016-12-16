@@ -162,31 +162,18 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         if (headerHeight < 0) {
             headerHeight = 0;
         }
-        
         if (footerHeight < 0) {
             footerHeight = 0;
         }
-        
         mHeaderHeight = headerHeight;
         mFooterHeight = footerHeight;
-        
-        // 这里得到Header和Footer的高度，设置的padding的top和bottom就应该是header和footer的高度
-        // 因为header和footer是完全看不见的
-        headerHeight = (null != mHeaderLayout) ? mHeaderLayout.getMeasuredHeight() : 0;
-        footerHeight = (null != mFooterLayout) ? mFooterLayout.getMeasuredHeight() : 0;
-        if (0 == footerHeight) {
-            footerHeight = mFooterHeight;
-        }
-        
+
         int pLeft = getPaddingLeft();
-        int pTop = getPaddingTop();
         int pRight = getPaddingRight();
-        int pBottom = getPaddingBottom();
+        int pTop = -headerHeight;
+        int pBottom = -footerHeight;
         
-        pTop = -headerHeight;
-        pBottom = -footerHeight;
-        
-        //这个意思是？
+        //进行缩减显示的范围
         setPadding(pLeft, pTop, pRight, pBottom);
     }
     
