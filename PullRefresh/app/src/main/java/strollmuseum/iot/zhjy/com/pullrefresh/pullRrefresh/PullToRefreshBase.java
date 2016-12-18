@@ -588,31 +588,47 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
      * @param delta 移动的距离
      */
     protected void pullHeaderLayout(float delta) {
-        // 向上滑动，并且当前scrollY为0时，不滑动
+        /**
+         * 如果:向上滑动，并且当前scrollY为0时，进行位移到零点
+          */
         int oldScrollY = getScrollYValue();
         if (delta < 0 && (oldScrollY - delta) >= 0) {
             setScrollTo(0, 0);
             return;
         }
-        
-        // 向下滑动布局
+
+        /**
+         * 如果向下滑动布局:
+         *  进行正常的移动
+         */
         setScrollBy(0, -(int)delta);
-        
+        /**
+         * 根据向下移动的位置:获取scale值
+         * 方便滑动角度!
+         */
         if (null != mHeaderLayout && 0 != mHeaderHeight) {
             float scale = Math.abs(getScrollYValue()) / (float) mHeaderHeight;
             mHeaderLayout.onPull(scale);
         }
-        
-        // 未处于刷新状态，更新箭头
+
+        /**
+         *   同时根据向下滑动的距离与headHeight进行比较:
+         *      进行设置当前最新的刷新状态
+          */
         int scrollY = Math.abs(getScrollYValue());
-        if (isPullRefreshEnabled() && !isPullRefreshing()) { 
+        //前提的条件是不能正在刷新的状态!
+        if (isPullRefreshEnabled() && !isPullRefreshing()) {
+            //如果scrollY>mHeaderHeigth
             if (scrollY > mHeaderHeight) {
+                //释放刷新
                 mPullDownState = ILoadingLayout.State.RELEASE_TO_REFRESH;
             } else {
+                //下拉刷新
                 mPullDownState = ILoadingLayout.State.PULL_TO_REFRESH;
             }
-            
+            //调用定义的view对象封装的改变ui的函数:根据当前最新的ui刷新状态!改变对应的ui函数!
             mHeaderLayout.setState(mPullDownState);
+            //暂时无用
             onStateChanged(mPullDownState, true);
         }
     }
