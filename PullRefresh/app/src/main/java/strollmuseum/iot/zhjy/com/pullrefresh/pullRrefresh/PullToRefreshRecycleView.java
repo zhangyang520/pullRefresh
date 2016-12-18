@@ -3,19 +3,15 @@ package strollmuseum.iot.zhjy.com.pullrefresh.pullRrefresh;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.Adapter;
-import android.widget.ListView;
 
 /**
  * 这个类实现了ListView下拉刷新，上加载更多和滑到底部自动加载
  * @author Li Hong
  * @since 2013-8-15
  */
-public class PullToRefreshRecycleView extends PullToRefreshBase<RecyclerView> /*implements RecyclerView.OnScrollListener */{
-
+public class PullToRefreshRecycleView extends PullToRefreshBase<RecyclerView>{;
     /**ListView*/
     private  RecyclerView mListView;
     /**用于滑到底部自动加载的Footer*/
@@ -52,7 +48,6 @@ public class PullToRefreshRecycleView extends PullToRefreshBase<RecyclerView> /*
      */
     public PullToRefreshRecycleView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        
         //FIXME 修改了内容
         setPullLoadEnabled(true);
     }
@@ -61,11 +56,21 @@ public class PullToRefreshRecycleView extends PullToRefreshBase<RecyclerView> /*
     protected RecyclerView createRefreshableView(Context context, AttributeSet attrs) {
         RecyclerView listView = new RecyclerView(context);
         mListView = listView;
-       /* listView.setOnScrollListener(this);*/
-        
+        mListView.setOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
         return listView;
     }
-    
     /**
      * 设置是否有更多数据的标志
      * 
@@ -83,6 +88,7 @@ public class PullToRefreshRecycleView extends PullToRefreshBase<RecyclerView> /*
             }
         }
     }
+
 
     /**
      * 设置滑动的监听器
