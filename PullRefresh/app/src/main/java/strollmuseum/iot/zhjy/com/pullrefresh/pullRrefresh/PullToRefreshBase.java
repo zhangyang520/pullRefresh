@@ -640,46 +640,55 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
      */
     protected void pullFooterLayout(float delta) {
         int oldScrollY = getScrollYValue();
+        //向下滑动时:footerView不要动！
         if (delta > 0 && (oldScrollY - delta) <= 0) {
             setScrollTo(0, 0);
             return;
         }
-        
+        //向上滑动时:进行移动整个布局
         setScrollBy(0, -(int)delta);
-        
+        //进行根据移动的getScrollYValue值进行设置相关的scale值
         if (null != mFooterLayout && 0 != mFooterHeight) {
             float scale = Math.abs(getScrollYValue()) / (float) mFooterHeight;
+            //进行改变滑动的view角度值!
             mFooterLayout.onPull(scale);
         }
-        
+        //根据滑动的距离:设置最新的上拉状态
         int scrollY = Math.abs(getScrollYValue());
         if (isPullLoadEnabled() && !isPullLoading()) {
-            if (scrollY > mFooterHeight) {
+            if (scrollY > mFooterHeight){
+                //向上滑动的距离>mFooterHeight
                 mPullUpState = ILoadingLayout.State.RELEASE_TO_REFRESH;
             } else {
+                //向上滑动的距离<mFooterHeight
                 mPullUpState = ILoadingLayout.State.PULL_TO_REFRESH;
             }
-            
+            //根据对应的状态值:设置对应的ui装填
             mFooterLayout.setState(mPullUpState);
+            //暂时没有用
             onStateChanged(mPullUpState, false);
         }
     }
 
     /**
-     * 得置header
+     * 重新设置header
      */
     protected void resetHeaderLayout() {
         final int scrollY = Math.abs(getScrollYValue());
         final boolean refreshing = isPullRefreshing();
-        
+        /**
+         * 如果释放时:正在刷新 && 滑动移动的y值<mHeaderHeight
+         */
         if (refreshing && scrollY <= mHeaderHeight) {
+            //进行整体滑动到0
             smoothScrollTo(0);
             return;
         }
-        
+        //如果释放时:正在刷新 && 滑动移动的y值>mHeaderHeight
         if (refreshing) {
             smoothScrollTo(-mHeaderHeight);
         } else {
+            //否则滑动到0
             smoothScrollTo(0);
         }
     }
@@ -690,12 +699,18 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     protected void resetFooterLayout() {
         int scrollY = Math.abs(getScrollYValue());
         boolean isPullLoading = isPullLoading();
-        
+        /**
+         * 如果释放时:正在刷新 && 滑动移动的y值<mHeaderHeight
+         */
         if (isPullLoading && scrollY <= mFooterHeight) {
+            //进行整体滑动原点
             smoothScrollTo(0);
             return;
         }
-        
+
+        /**
+         * 如果释放时:正在刷新 && 滑动移动的y值>mHeaderHeight
+         */
         if (isPullLoading) {
             smoothScrollTo(mFooterHeight);
         } else {
@@ -756,14 +771,15 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         if (isPullLoading()) {
             return;
         }
-        
+        //正在滑动
         mPullUpState = ILoadingLayout.State.REFRESHING;
+        //暂时无用
         onStateChanged(ILoadingLayout.State.REFRESHING, false);
         
         if (null != mFooterLayout) {
             mFooterLayout.setState(ILoadingLayout.State.REFRESHING);
         }
-        
+        //进行调用对应的监听器
         if (null != mRefreshListener) {
             // 因为滚动回原始位置的时间是200，我们需要等回滚完后才执行加载回调
             postDelayed(new Runnable() {
@@ -926,6 +942,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                  * We do do all calculations in long to reduce software float
                  * calculations. We use 1000 as it gives us good accuracy and
                  * small rounding errors
+                 * 自定义的插值方法
                  */
                 final long oneSecond = 1000;    // SUPPRESS CHECKSTYLE
                 long normalizedTime = (oneSecond * (System.currentTimeMillis() - mStartTime)) / mDuration;
@@ -934,7 +951,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 final int deltaY = Math.round((mScrollFromY - mScrollToY)
                         * mInterpolator.getInterpolation(normalizedTime / (float) oneSecond));
                 mCurrentY = mScrollFromY - deltaY;
-                
+                //进行滑动到对应的值！
                 setScrollTo(0, mCurrentY);
             }
 
