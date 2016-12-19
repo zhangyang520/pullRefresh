@@ -270,7 +270,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         default:
             break;
         }
-        System.out.println("onInterceptTouchEvent... mIsHandledTouchEvent:" + mIsHandledTouchEvent);
+        System.out.println("onInterceptTouchEvent... mIsHandledTouchEvent:"+mIsHandledTouchEvent);
         return mIsHandledTouchEvent;
     }
 
@@ -315,7 +315,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 //能够拦截事件
                 mIsHandledTouchEvent = false;
                 // 当第一个显示出来时
-                if (isReadyForPullDown()){
+                if (isReadyForPullDown()) {
                     // 调用刷新
                     if (mPullRefreshEnabled && (mPullDownState == ILoadingLayout.State.RELEASE_TO_REFRESH)) {
                         //刷新被允许时,同时向下拉的状态为:RELEASE_TO_REFRESH
@@ -323,7 +323,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                             //如果上拉加载更多的状态为:正在刷新中....
                         	Toast.makeText(UiUtils.getContext(),refreshTitle+pullDownWhenPullUpError,Toast.LENGTH_SHORT).show();
                         }else{
-                            //变动ui:通过封装的接口进行回调对应mPullDownState的状态响应的函数
                         	startRefreshing();
                             handled = true;
                         }
@@ -389,10 +388,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     public void setOnRefreshListener(OnRefreshListener<T> refreshListener) {
         mRefreshListener = refreshListener;
     }
-
-    /**
-     * 刷新结束时的业务处理
-     */
+    
     @Override
     public void onPullDownRefreshComplete() {
         //只有正在刷新中
@@ -615,7 +611,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
      * @param delta 移动的距离
      */
     protected void pullHeaderLayout(float delta) {
-
         // 向上滑动，并且当前scrollY为0时，不滑动
         int oldScrollY = getScrollYValue();
         System.out.println("pullHeaderLayout .....oldScrollY:"+oldScrollY+//
@@ -1020,4 +1015,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	public void setRefreshTitle(String refreshTitle) {
 		this.refreshTitle = refreshTitle;
 	}
+    
+    
 }
