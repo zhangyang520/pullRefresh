@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //进行刷新listView
         ll=(LinearLayout)findViewById(R.id.ll);
-        pull_refresh_view=new PullToRefreshListView(this);
+        pull_refresh_view=new PullToRefreshListView(this,true);
         pull_refresh_view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,1500));
         ll.addView(pull_refresh_view);
 //        pull_refresh_view=(PullToRefreshListView)findViewById(R.id.pull_refresh_view);
