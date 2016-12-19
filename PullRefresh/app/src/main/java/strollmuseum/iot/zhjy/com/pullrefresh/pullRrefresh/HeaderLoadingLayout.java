@@ -81,6 +81,10 @@ public class HeaderLoadingLayout extends LoadingLayout{
                 Animation.RELATIVE_TO_SELF, pivotValue);
         mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
         mRotateDownAnim.setFillAfter(true);
+
+        pullToRefreshString=getContext().getString(R.string.pull_to_refresh_header_hint_normal);
+        releaseToRefreshing=getContext().getString(R.string.pull_to_refresh_header_hint_ready);
+        refreshing=getContext().getString(R.string.pull_to_refresh_header_hint_loading);
     }
 
     @Override
@@ -115,8 +119,7 @@ public class HeaderLoadingLayout extends LoadingLayout{
     @Override
     protected void onReset(){
         mArrowImageView.clearAnimation();
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
-        
+        mHintTextView.setText(super.pullToRefreshString);
     }
 
     @Override
@@ -125,14 +128,14 @@ public class HeaderLoadingLayout extends LoadingLayout{
             mArrowImageView.clearAnimation();
             mArrowImageView.startAnimation(mRotateDownAnim);
         }
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
+        mHintTextView.setText(super.pullToRefreshString);
     }
 
     @Override
     protected void onReleaseToRefresh() {
         mArrowImageView.clearAnimation();
         mArrowImageView.startAnimation(mRotateUpAnim);
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_ready);
+        mHintTextView.setText(super.releaseToRefreshing);
     }
 
     @Override
@@ -140,6 +143,6 @@ public class HeaderLoadingLayout extends LoadingLayout{
         mArrowImageView.clearAnimation();
         mArrowImageView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_loading);
+        mHintTextView.setText(super.refreshing);
     }
 }

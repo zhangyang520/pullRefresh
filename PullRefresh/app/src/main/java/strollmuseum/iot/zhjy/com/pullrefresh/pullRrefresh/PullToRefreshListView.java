@@ -42,7 +42,10 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
     public PullToRefreshListView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-    
+
+    public PullToRefreshListView(Context context,boolean headFootOpposite) {
+        super(context, headFootOpposite);
+    }
     /**
      * 构造方法
      * 

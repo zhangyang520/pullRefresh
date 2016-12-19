@@ -91,6 +91,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     private String pullUpWhenPullDownError="下拉刷新中,不能加载更多";
     private String pullDownWhenPullUpError="上拉加载中,不能下拉刷新";
     private String refreshTitle;
+
+    private boolean headFootOpposite;
     /**
      * 构造方法
      * @param context context
@@ -110,6 +112,11 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         init(context, attrs);
     }
 
+    public PullToRefreshBase(Context context,boolean headFootOpposite) {
+        super(context);
+        this.headFootOpposite=headFootOpposite;
+        init(context, null);
+    }
     /**
      * 构造方法
      * @param context context
@@ -129,8 +136,22 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     private void init(Context context, AttributeSet attrs) {
         setOrientation(LinearLayout.VERTICAL);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        mHeaderLayout = createHeaderLoadingLayout(context, attrs);
-        mFooterLayout = createFooterLoadingLayout(context, attrs);
+
+        if(!headFootOpposite){
+            mHeaderLayout = createHeaderLoadingLayout(context, attrs);
+            mFooterLayout = createFooterLoadingLayout(context, attrs);
+        }else{
+            mFooterLayout = createHeaderLoadingLayout(context, attrs);
+//            Toast.makeText(context,"设置了",Toast.LENGTH_SHORT).show();
+            mFooterLayout.setPullToRefreshString("上拉可以刷新");
+            mFooterLayout.setReleaseToRefreshing("松开可以刷新");
+            mFooterLayout.setRefreshing("上拉刷新,正在加载中");
+
+            mHeaderLayout = createFooterLoadingLayout(context, attrs);
+            mHeaderLayout.setPullToRefreshString("下拉可以加载更多");
+            mHeaderLayout.setReleaseToRefreshing("松开可以加载更多");
+            mHeaderLayout.setRefreshing("下拉加载更多中...");
+        }
         mRefreshableView = createRefreshableView(context, attrs);
         
         if (null == mRefreshableView) {
@@ -435,6 +456,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 public void run() {
                     setInterceptTouchEventEnabled(true);
                     mFooterLayout.setState(ILoadingLayout.State.RESET);
+                    //设置最后一次的时间
+                    mFooterLayout.setLastUpdatedLabel(DateUtil.dateFormat2(Calendar.getInstance().getTime()));
                 }
             }, getSmoothScrollDuration());
             //重置底部布局业务
@@ -619,7 +642,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
          * 关键一点是:向上的滑动方向检测到，headView部分一定要滑动到顶部:
          * 通过整体方面的scrollBy
          */
-        if (delta < 0 || (oldScrollY - delta) >= 0) {
+        if (delta < 0 && (oldScrollY - delta) >= 0) {
             System.out.println("pullHeaderLayout setScrollTo (0,0)");
 //            setScrollTo(0, 0);
             smoothScrollTo(0);
@@ -669,7 +692,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     protected void pullFooterLayout(float delta){
         int oldScrollY = getScrollYValue();
         //如果监测到向下滑动的迹象:那么footerLayout进行滑动到底层
-        if (delta > 0 || (oldScrollY - delta) <= 0) {
+        if (delta > 0 && (oldScrollY - delta) <= 0) {
             System.out.println("pullFooterLayout setScrollTo (0,0)");
 //            setScrollTo(0, 0);
             smoothScrollTo(0);

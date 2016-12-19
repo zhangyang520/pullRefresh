@@ -21,7 +21,11 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
     private State mCurState = State.NONE;
     /**前一个状态*/
     private State mPreState = State.NONE;
-    
+
+    protected String pullToRefreshString;
+    protected String releaseToRefreshing;
+    protected String refreshing;
+
     /**
      * 构造方法
      * 
@@ -249,4 +253,28 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
      * @return Loading的View
      */
     protected abstract View createLoadingView(Context context, AttributeSet attrs);
+
+    public String getPullToRefreshString() {
+        return pullToRefreshString;
+    }
+
+    public void setPullToRefreshString(String pullToRefreshString) {
+        this.pullToRefreshString = pullToRefreshString;
+    }
+
+    public String getReleaseToRefreshing() {
+        return releaseToRefreshing;
+    }
+
+    public void setReleaseToRefreshing(String releaseToRefreshing) {
+        this.releaseToRefreshing = releaseToRefreshing;
+    }
+
+    public String getRefreshing() {
+        return refreshing;
+    }
+
+    public void setRefreshing(String refreshing) {
+        this.refreshing = refreshing;
+    }
 }
