@@ -3,8 +3,10 @@ package strollmuseum.iot.zhjy.com.pullrefresh.pullRrefresh;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Adapter;
@@ -15,10 +17,10 @@ import android.widget.ListView;
  * @author Li Hong
  * @since 2013-8-15
  */
-public class PullToRefreshListView extends PullToRefreshBase<ListView> implements OnScrollListener {
-    
+public class PullToRefreshRecyclerView extends PullToRefreshBase<RecyclerView> {
+
     /**ListView*/
-    private ListView mListView;
+    private RecyclerView mListView;
     /**用于滑到底部自动加载的Footer*/
     private LoadingLayout mLoadMoreFooterLayout;
     /**滚动的监听器*/
@@ -27,34 +29,34 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
     LinearLayoutManager linearLayoutManager;
 	/**
      * 构造方法
-     * 
+     *
      * @param context context
      */
-    public PullToRefreshListView(Context context) {
+    public PullToRefreshRecyclerView(Context context) {
         this(context, null);
     }
-    
+
     /**
      * 构造方法
-     * 
+     *
      * @param context context
      * @param attrs attrs
      */
-    public PullToRefreshListView(Context context, AttributeSet attrs) {
+    public PullToRefreshRecyclerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PullToRefreshListView(Context context,boolean headFootOpposite) {
+    public PullToRefreshRecyclerView(Context context, boolean headFootOpposite) {
         super(context, headFootOpposite);
     }
     /**
      * 构造方法
-     * 
+     *
      * @param context context
      * @param attrs attrs
      * @param defStyle defStyle
      */
-    public PullToRefreshListView(Context context, AttributeSet attrs, int defStyle) {
+    public PullToRefreshRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
         //FIXME 修改了内容
@@ -62,11 +64,10 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
     }
 
     @Override
-    protected ListView createRefreshableView(Context context, AttributeSet attrs) {
-        ListView listView = new ListView(context);
+    protected RecyclerView createRefreshableView(Context context, AttributeSet attrs) {
+        RecyclerView listView = new RecyclerView(context);
+        listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mListView = listView;
-        listView.setOnScrollListener(this);
-        
         return listView;
     }
     
@@ -122,25 +123,7 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
             mLoadMoreFooterLayout.setState(ILoadingLayout.State.RESET);
         }
     }
-    
-    @Override
-    public void setScrollLoadEnabled(boolean scrollLoadEnabled) {
-        super.setScrollLoadEnabled(scrollLoadEnabled);
-        if (scrollLoadEnabled) {
-            // 设置Footer
-            if (null == mLoadMoreFooterLayout) {
-                mLoadMoreFooterLayout = new RotateFooterLoadingLayout(getContext());
-            }
-            if (null == mLoadMoreFooterLayout.getParent()) {
-                mListView.addFooterView(mLoadMoreFooterLayout, null, false);
-            }
-            mLoadMoreFooterLayout.show(true);
-        } else {
-            if (null != mLoadMoreFooterLayout) {
-                mLoadMoreFooterLayout.show(false);
-            }
-        }
-    }
+
     
     @Override
     public LoadingLayout getFooterLoadingLayout() {
@@ -150,29 +133,6 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
         return super.getFooterLoadingLayout();
     }
 
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (isScrollLoadEnabled() && hasMoreData()) {
-            if (scrollState == OnScrollListener.SCROLL_STATE_IDLE 
-                    || scrollState == OnScrollListener.SCROLL_STATE_FLING) {
-                if (isReadyForPullUp()) {
-                    startLoading();
-                }
-            }
-        }
-        
-        if (null != mScrollListener) {
-            mScrollListener.onScrollStateChanged(view, scrollState);
-        }
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (null != mScrollListener) {
-            mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-        }
-    }
-    
     @Override
     protected LoadingLayout createHeaderLoadingLayout(Context context, AttributeSet attrs) {
         return new RotateLoadingLayout(context);
@@ -196,12 +156,12 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
      * @return true完全显示出来，否则false
      */
     private boolean isFirstItemVisible() {
-        final Adapter adapter = mListView.getAdapter();
+        final RecyclerView.Adapter adapter = mListView.getAdapter();
 
-        if (null == adapter || adapter.isEmpty()) {
+        if (null == adapter) {
             return true;
         }
-        int mostTop = (mListView.getChildCount() > 0) ? mListView.getChildAt(0).getTop() : 0;
+        int mostTop = (mListView.getChildCount() > 0) ? mListView.getChildAt(0).getTop() : -1;
         System.out.println("isFirstItemVisible ....mostTop:"+mostTop);
         if (mostTop >= 0) {
             return true;
@@ -216,13 +176,15 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
      * @return true完全显示出来，否则false
      */
     private boolean isLastItemVisible() {
-        final Adapter adapter = mListView.getAdapter();
+        final RecyclerView.Adapter adapter = mListView.getAdapter();
 
-        if (null == adapter || adapter.isEmpty()) {
+        if (null == adapter || mListView.getLayoutManager()==null || //
+                                        mListView.getLayoutManager().getChildCount()<=0) {
             return true;
         }
-        final int lastItemPosition = adapter.getCount() - 1;
-        final int lastVisiblePosition = mListView.getLastVisiblePosition();
+        final int lastItemPosition =  mListView.getLayoutManager().getItemCount() - 1;
+        System.out.println("PullToRrefreshRecyclerView isLastItemVisible lastItemPosition:"+lastItemPosition);
+        final int lastVisiblePosition = ((LinearLayoutManager)mListView.getLayoutManager()).findLastVisibleItemPosition();
 
         /**
          * This check should really just be: lastVisiblePosition == lastItemPosition, but ListView
@@ -230,7 +192,7 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
          * one to account for it and rely on the inner condition which checks getBottom().
          */
         if (lastVisiblePosition >= lastItemPosition - 1) {
-            final int childIndex = lastVisiblePosition - mListView.getFirstVisiblePosition();
+            final int childIndex = lastVisiblePosition - ((LinearLayoutManager)mListView.getLayoutManager()).findFirstVisibleItemPosition();
             final int childCount = mListView.getChildCount();
             final int index = Math.min(childIndex, childCount - 1);
             final View lastVisibleChild = mListView.getChildAt(index);
@@ -241,11 +203,11 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
         return false;
     }
     
-    public ListView getmListView() {
+    public RecyclerView getmListView() {
  		return mListView;
  	}
 
- 	public void setmListView(ListView mListView) {
+ 	public void setmListView(RecyclerView mListView) {
  		this.mListView = mListView;
  	}
 }

@@ -86,6 +86,10 @@ public class RotateLoadingLayout extends LoadingLayout{
         mRotateAnimation.setDuration(ROTATION_ANIMATION_DURATION);
         mRotateAnimation.setRepeatCount(Animation.INFINITE);
         mRotateAnimation.setRepeatMode(Animation.RESTART);
+
+        super.pullToRefreshString=getContext().getString(R.string.pull_to_refresh_header_hint_normal);
+        super.releaseToRefreshing=getContext().getString(R.string.pull_to_refresh_header_hint_ready);
+        super.refreshing=getContext().getString(R.string.pull_to_refresh_header_hint_loading);
     }
     
     @Override
@@ -117,17 +121,20 @@ public class RotateLoadingLayout extends LoadingLayout{
     @Override
     protected void onReset() {
         resetRotation();
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
+//        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
+        mHintTextView.setText(getPullToRefreshString());
     }
 
     @Override
     protected void onReleaseToRefresh() {
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_ready);
+//        mHintTextView.setText(R.string.pull_to_refresh_header_hint_ready);
+        mHintTextView.setText(getReleaseToRefreshing());
     }
     
     @Override
     protected void onPullToRefresh() {
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
+//        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
+        mHintTextView.setText(getPullToRefreshString());
     }
     
     @Override
@@ -135,6 +142,7 @@ public class RotateLoadingLayout extends LoadingLayout{
         resetRotation();
         mArrowImageView.startAnimation(mRotateAnimation);
         mHintTextView.setText(R.string.pull_to_refresh_header_hint_loading);
+        mHintTextView.setText(getRefreshing());
     }
     
     @Override

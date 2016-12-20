@@ -89,6 +89,11 @@ public class RotateFooterLoadingLayout extends LoadingLayout{
         mRotateAnimation.setDuration(ROTATION_ANIMATION_DURATION);
         mRotateAnimation.setRepeatCount(Animation.INFINITE);
         mRotateAnimation.setRepeatMode(Animation.RESTART);
+
+
+        pullToRefreshString=getContext().getString(R.string.pull_to_refresh_header_hint_normal2);
+        releaseToRefreshing=getContext().getString(R.string.pull_to_refresh_footer_hint_ready);
+        refreshing=getContext().getString(R.string.pull_to_refresh_footer_hint_loading);
     }
     
     @Override
@@ -120,24 +125,25 @@ public class RotateFooterLoadingLayout extends LoadingLayout{
     @Override
     protected void onReset() {
         resetRotation();
-        mHintTextView.setText(R.string.pull_to_refresh_footer_hint_ready);
+        mHintTextView.setText(releaseToRefreshing);
     }
 
     @Override
     protected void onReleaseToRefresh() {
-        mHintTextView.setText(R.string.pull_to_refresh_footer_hint_ready);
+        mHintTextView.setText(releaseToRefreshing);
     }
-    
+
     @Override
     protected void onPullToRefresh() {
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal2);
+        System.out.println("RotateFooterLoadingLayout ...onPullToRefresh...."+super.pullToRefreshString);
+        mHintTextView.setText(pullToRefreshString);
     }
-    
+
     @Override
     protected void onRefreshing(){
         resetRotation();
         mArrowImageView.startAnimation(mRotateAnimation);
-        mHintTextView.setText(R.string.pull_to_refresh_footer_hint_loading);
+        mHintTextView.setText(refreshing);
     }
     
     @Override

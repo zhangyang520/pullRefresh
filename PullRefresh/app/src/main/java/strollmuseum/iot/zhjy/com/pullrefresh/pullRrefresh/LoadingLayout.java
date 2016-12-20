@@ -21,7 +21,11 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
     private State mCurState = State.NONE;
     /**前一个状态*/
     private State mPreState = State.NONE;
-    
+
+    protected String pullToRefreshString;
+    protected String releaseToRefreshing;
+    protected String refreshing;
+
     /**
      * 构造方法
      * 
@@ -141,9 +145,12 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
     @Override
     public void setState(State state) {
         if (mCurState != state) {
+            System.out.println("setState ...mCurState!=state");
             mPreState = mCurState;
             mCurState = state;
             onStateChanged(state, mPreState);
+        }else{
+            System.out.println("setState ...mCurState==state");
         }
     }
     
@@ -183,6 +190,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 	            break;
 	            
 	        case PULL_TO_REFRESH:
+                System.out.println("LoadingLayout...PULL_TO_REFRESH");
 	            onPullToRefresh();
 	            break;
 	            
@@ -202,30 +210,22 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
     /**
      * 当状态设置为{@link State#RESET}时调用
      */
-    protected void onReset(){
-        
-    }
+    abstract  protected void onReset();
     
     /**
      * 当状态设置为{@link State#PULL_TO_REFRESH}时调用
      */
-    protected void onPullToRefresh() {
-        
-    }
+    abstract protected void onPullToRefresh();
     
     /**
      * 当状态设置为{@link State#RELEASE_TO_REFRESH}时调用
      */
-    protected void onReleaseToRefresh() {
-        
-    }
+    abstract protected void onReleaseToRefresh() ;
     
     /**
      * 当状态设置为{@link State#REFRESHING}时调用
      */
-    protected void onRefreshing() {
-        
-    }
+    abstract protected void onRefreshing();
     
     /**
      * 当状态设置为{@link State#NO_MORE_DATA}时调用
@@ -249,4 +249,28 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
      * @return Loading的View
      */
     protected abstract View createLoadingView(Context context, AttributeSet attrs);
+
+    public String getPullToRefreshString() {
+        return pullToRefreshString;
+    }
+
+    public void setPullToRefreshString(String pullToRefreshString) {
+        this.pullToRefreshString = pullToRefreshString;
+    }
+
+    public String getReleaseToRefreshing() {
+        return releaseToRefreshing;
+    }
+
+    public void setReleaseToRefreshing(String releaseToRefreshing) {
+        this.releaseToRefreshing = releaseToRefreshing;
+    }
+
+    public String getRefreshing() {
+        return refreshing;
+    }
+
+    public void setRefreshing(String refreshing) {
+        this.refreshing = refreshing;
+    }
 }

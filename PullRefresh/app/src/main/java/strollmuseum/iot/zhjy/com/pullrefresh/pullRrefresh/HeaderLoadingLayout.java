@@ -81,6 +81,11 @@ public class HeaderLoadingLayout extends LoadingLayout{
                 Animation.RELATIVE_TO_SELF, pivotValue);
         mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
         mRotateDownAnim.setFillAfter(true);
+
+        System.out.println("init ,...HeaderLoadingLayout..");
+        super.pullToRefreshString=getContext().getString(R.string.pull_to_refresh_header_hint_normal);
+        super.releaseToRefreshing=getContext().getString(R.string.pull_to_refresh_header_hint_ready);
+        super.refreshing=getContext().getString(R.string.pull_to_refresh_header_hint_loading);
     }
 
     @Override
@@ -115,31 +120,31 @@ public class HeaderLoadingLayout extends LoadingLayout{
     @Override
     protected void onReset(){
         mArrowImageView.clearAnimation();
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
-        
+        mHintTextView.setText(super.pullToRefreshString);
     }
 
     @Override
     protected void onPullToRefresh(){
         if (State.RELEASE_TO_REFRESH == getPreState()) {
-            mArrowImageView.clearAnimation();
-            mArrowImageView.startAnimation(mRotateDownAnim);
+//            mArrowImageView.clearAnimation();
+//            mArrowImageView.startAnimation(mRotateDownAnim);
         }
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_normal);
+        System.out.println("HeaderLoadingLayout ...onPullToRefresh...."+super.pullToRefreshString);
+        mHintTextView.setText(super.pullToRefreshString);
     }
 
     @Override
     protected void onReleaseToRefresh() {
-        mArrowImageView.clearAnimation();
-        mArrowImageView.startAnimation(mRotateUpAnim);
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_ready);
+//        mArrowImageView.clearAnimation();
+//        mArrowImageView.startAnimation(mRotateUpAnim);
+        mHintTextView.setText(super.releaseToRefreshing);
     }
 
     @Override
     protected void onRefreshing() {
-        mArrowImageView.clearAnimation();
-        mArrowImageView.setVisibility(View.INVISIBLE);
+//        mArrowImageView.clearAnimation();
+//        mArrowImageView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
-        mHintTextView.setText(R.string.pull_to_refresh_header_hint_loading);
+        mHintTextView.setText(super.refreshing);
     }
 }
