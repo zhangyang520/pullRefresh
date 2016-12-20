@@ -141,7 +141,9 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
             mHeaderLayout = createHeaderLoadingLayout(context, attrs);
             mFooterLayout = createFooterLoadingLayout(context, attrs);
         }else{
+            System.out.println("mFooterLayout 111111");
             mFooterLayout = createHeaderLoadingLayout(context, attrs);
+            System.out.println("mFooterLayout 222222");
 //            Toast.makeText(context,"设置了",Toast.LENGTH_SHORT).show();
             mFooterLayout.setPullToRefreshString("上拉可以刷新");
             mFooterLayout.setReleaseToRefreshing("松开可以刷新");
@@ -613,7 +615,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         
         final LoadingLayout headerLayout = mHeaderLayout;
         final LoadingLayout footerLayout = mFooterLayout;
-        
+
+        System.out.println("mFooterLayout pullToRefresh:"+footerLayout.getPullToRefreshString()+"...releaseToRefresh:"+footerLayout.getReleaseToRefreshing());
         if (null != headerLayout) {
             if (this == headerLayout.getParent()) {
                 removeView(headerLayout);
@@ -710,11 +713,15 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         if (isPullLoadEnabled() && !isPullLoading()) {
             if (scrollY > mFooterHeight) {
                 mPullUpState = ILoadingLayout.State.RELEASE_TO_REFRESH;
+                System.out.println("pullFooterLayout RELEASE_TO_REFRESH....");
             } else {
                 mPullUpState = ILoadingLayout.State.PULL_TO_REFRESH;
+                System.out.println("pullFooterLayout PULL_TO_REFRESH....");
             }
-            
+
+            System.out.println("pullFooterLayout setState....");
             mFooterLayout.setState(mPullUpState);
+
             onStateChanged(mPullUpState, false);
         }
     }

@@ -135,6 +135,7 @@ public class RotateFooterLoadingLayout extends LoadingLayout{
 
     @Override
     protected void onPullToRefresh() {
+        System.out.println("RotateFooterLoadingLayout ...onPullToRefresh...."+super.pullToRefreshString);
         mHintTextView.setText(pullToRefreshString);
     }
 

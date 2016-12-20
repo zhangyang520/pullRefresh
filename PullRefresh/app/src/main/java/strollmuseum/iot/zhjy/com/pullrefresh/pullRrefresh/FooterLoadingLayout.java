@@ -92,6 +92,7 @@ public class FooterLoadingLayout extends LoadingLayout {
 
     @Override
     protected void onPullToRefresh() {
+        System.out.println("FooterLoadingLayout ...onPullToRefresh...."+super.pullToRefreshString);
     	mProgressBar.setVisibility(View.VISIBLE);
         mHintView.setVisibility(View.VISIBLE);
         mHintView.setText(R.string.pull_to_refresh_header_hint_normal2);

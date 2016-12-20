@@ -82,9 +82,10 @@ public class HeaderLoadingLayout extends LoadingLayout{
         mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
         mRotateDownAnim.setFillAfter(true);
 
-        pullToRefreshString=getContext().getString(R.string.pull_to_refresh_header_hint_normal);
-        releaseToRefreshing=getContext().getString(R.string.pull_to_refresh_header_hint_ready);
-        refreshing=getContext().getString(R.string.pull_to_refresh_header_hint_loading);
+        System.out.println("init ,...HeaderLoadingLayout..");
+        super.pullToRefreshString=getContext().getString(R.string.pull_to_refresh_header_hint_normal);
+        super.releaseToRefreshing=getContext().getString(R.string.pull_to_refresh_header_hint_ready);
+        super.refreshing=getContext().getString(R.string.pull_to_refresh_header_hint_loading);
     }
 
     @Override
@@ -125,23 +126,24 @@ public class HeaderLoadingLayout extends LoadingLayout{
     @Override
     protected void onPullToRefresh(){
         if (State.RELEASE_TO_REFRESH == getPreState()) {
-            mArrowImageView.clearAnimation();
-            mArrowImageView.startAnimation(mRotateDownAnim);
+//            mArrowImageView.clearAnimation();
+//            mArrowImageView.startAnimation(mRotateDownAnim);
         }
+        System.out.println("HeaderLoadingLayout ...onPullToRefresh...."+super.pullToRefreshString);
         mHintTextView.setText(super.pullToRefreshString);
     }
 
     @Override
     protected void onReleaseToRefresh() {
-        mArrowImageView.clearAnimation();
-        mArrowImageView.startAnimation(mRotateUpAnim);
+//        mArrowImageView.clearAnimation();
+//        mArrowImageView.startAnimation(mRotateUpAnim);
         mHintTextView.setText(super.releaseToRefreshing);
     }
 
     @Override
     protected void onRefreshing() {
-        mArrowImageView.clearAnimation();
-        mArrowImageView.setVisibility(View.INVISIBLE);
+//        mArrowImageView.clearAnimation();
+//        mArrowImageView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
         mHintTextView.setText(super.refreshing);
     }
