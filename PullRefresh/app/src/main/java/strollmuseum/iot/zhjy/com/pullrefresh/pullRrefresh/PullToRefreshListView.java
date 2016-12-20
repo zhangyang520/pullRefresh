@@ -2,6 +2,7 @@ package strollmuseum.iot.zhjy.com.pullrefresh.pullRrefresh;
 
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
@@ -22,8 +23,8 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
     private LoadingLayout mLoadMoreFooterLayout;
     /**滚动的监听器*/
     private OnScrollListener mScrollListener;
- 
 
+    LinearLayoutManager linearLayoutManager;
 	/**
      * 构造方法
      * 

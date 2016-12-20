@@ -139,9 +139,9 @@ public class RotateLoadingLayout extends LoadingLayout{
     
     @Override
     protected void onRefreshing(){
-//        resetRotation();
-//        mArrowImageView.startAnimation(mRotateAnimation);
-//        mHintTextView.setText(R.string.pull_to_refresh_header_hint_loading);
+        resetRotation();
+        mArrowImageView.startAnimation(mRotateAnimation);
+        mHintTextView.setText(R.string.pull_to_refresh_header_hint_loading);
         mHintTextView.setText(getRefreshing());
     }
     
