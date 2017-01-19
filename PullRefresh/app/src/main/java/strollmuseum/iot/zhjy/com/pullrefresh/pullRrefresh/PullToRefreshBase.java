@@ -91,6 +91,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     private String pullUpWhenPullDownError="下拉刷新中,不能加载更多";
     private String pullDownWhenPullUpError="上拉加载中,不能下拉刷新";
     private String refreshTitle;
+
+    boolean headFootOpposite;
     /**
      * 构造方法
      * @param context context
