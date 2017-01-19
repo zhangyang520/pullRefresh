@@ -2,7 +2,11 @@ package strollmuseum.iot.zhjy.com.pullrefresh.pullRrefresh;
 
 /**
  * 下拉刷新和上拉加载更多的界面接口
- * 
+ *  封装的方法:
+ *      当前状态的封装()!
+ *      设置,获取当前的状态！
+ *      得到当前内容的高度！
+ *      滑动时候的比例的设置！
  * @author Li Hong
  * @since 2013-7-29
  */
