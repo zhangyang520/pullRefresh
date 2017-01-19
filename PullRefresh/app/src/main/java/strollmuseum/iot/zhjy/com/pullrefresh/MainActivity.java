@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 initRecyclerAdapterData();
                 recyclerViewAdapter.notifyDataSetChanged();
                 pull_refresh_view.onPullUpRefreshComplete();
+
             }
         });
     }
