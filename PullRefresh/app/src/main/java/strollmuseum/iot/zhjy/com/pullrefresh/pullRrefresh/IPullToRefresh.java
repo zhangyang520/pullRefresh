@@ -2,7 +2,12 @@ package strollmuseum.iot.zhjy.com.pullrefresh.pullRrefresh;
 
 import android.view.View;
 /**
- * 定义了拉动刷新的接口
+ * 定义了拉动刷新的接口:
+ *      是否能够:下拉刷新,上拉加载更多,滑动到底部自动加载更多。
+ *               设置刷新监听器，
+ *               结束下拉刷新，上拉加载更多!
+ *               获取头部,获取底部
+ *               设置最后的文本
  * @author Li Hong
  * @since 2013-8-22
  * @param <T>
